@@ -23,6 +23,9 @@ do_secret_clean() {
     for target in $BUILDROOT/etc/{group,passwd,shadow} ; do
         run_command sed -i -r -e "/${core}|${udev}/!d" "$target"
     done
+
+    # Re-enable root login via password for initramfs only
+    run_command sed -i -r -e 's/(^root:)!(.*)/\1\2/' $BUILDROOT/etc/shadow
 }
 
 # ensure dropbear server host keys
